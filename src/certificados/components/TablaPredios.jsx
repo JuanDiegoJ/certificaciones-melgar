@@ -9,7 +9,7 @@ const obtenerPredios = async () => {
     return respuesta
 }
 
-export const TablaPredio = () => {
+export const TablaPredios = () => {
 
     const [predios, setPredios] = useState([])
     const [respuesta, setRespuesta] = useState()
