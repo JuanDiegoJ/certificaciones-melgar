@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum Consulta {
+  estratificacion
+  nomenclatura
+}
+
+model m_sdp {
+  id_funcionario    Int    @id @default(autoincrement())
+  funcionario       String @db.VarChar(70)
+  cargo_funcionario String @db.VarChar(40)
+  genero            String @db.VarChar(10)
+  profesion         String @db.VarChar(40)
+  ciudad            String @db.VarChar(20)
+  web               String @db.VarChar(100)
+  area              String @db.VarChar(30)
+  copo              String @db.VarChar(6)
+  direccion         String @db.VarChar(70)
+  telefonos         String @db.VarChar(50)
+  nit_empresa       String @db.VarChar(15)
+}
+
+model m_parametros_graficos {
+  id_grafico          Int    @id @default(autoincrement())
+  tipo_grafico        String @db.VarChar(20)
+  path_grafico        String @db.VarChar(100)
+  descripcion_grafivo String @db.VarChar(100)
+}
+
+model m_parametros_texto {
+  id_parametro      Int      @id @default(autoincrement())
+  tipo_texto        String   @db.VarChar(20)
+  descripcion_texto String   @db.VarChar(1000)
+  tipo_consulta     Consulta @default(estratificacion)
+}
+
+model predios {
+  id_predio              Int    @id @default(autoincrement())
+  codigo_municipio       String @db.VarChar(10)
+  cedula_catastral       String @db.VarChar(50)
+  matricula_inmobiliaria String @db.VarChar(20)
+  direccion              String @db.VarChar(100)
+  estrato                String @db.VarChar(30)
+  barrio                 String @db.VarChar(100)
+}
+
+model usuarios {
+  id                 String             @id @db.VarChar(25)
+  nombres            String             @db.VarChar(100)
+  apellidos          String             @db.VarChar(100)
+  email              String             @unique @db.VarChar(50)
+  emailVerified      DateTime?
+  password           String             @db.VarChar(100)
+  role               Role               @default(user)
+  fecha_creacion     DateTime           @default(now())
+  fecha_modificacion DateTime           @updatedAt
+  consultas_predios  consultas_predios[]
+}
+
+model consultas_predios {
+  no_certificado         String   @id @db.VarChar(25)
+  id_predio Int
+  cedula_catastral       String   @db.VarChar(50)
+  matricula_inmobiliaria String   @db.VarChar(20)
+  direccion              String   @db.VarChar(100)
+  estrato                String   @db.VarChar(30)
+  barrio                 String   @db.VarChar(100)
+  usuario                usuarios @relation(fields: [usuario_id], references: [id])
+  usuario_id             String
+  tipo_consulta          Consulta @default(estratificacion)
+  fecha_consulta         DateTime
+  fecha_maxima           DateTime
+  habilitada             Boolean  @default(false)
+}
