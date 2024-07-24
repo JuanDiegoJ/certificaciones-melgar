@@ -75,7 +75,7 @@ export const Botones = ({ setShowModal }) => {
                     <div>Importar listado</div>
                 </div>
             </button>
-            <div className="w-full text-xl font-bold"><span>{respuesta.message}</span></div>
+            <div className="w-full text-xl font-bold"><span>{respuesta?.message ? respuesta?.message : ""}</span></div>
         </div>
     )
 }
