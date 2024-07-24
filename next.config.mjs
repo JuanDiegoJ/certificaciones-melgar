@@ -5,6 +5,11 @@ const nextConfig = {
         // Define la ruta base para las imágenes en producción
         imageBaseUrl: '/',
       },
+      experimental: {
+        serverActions: {
+          bodySizeLimit: '4mb',
+        },
+      },
 
 };
 

@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(certificaciones)/estratificacion/page.tsx", "src/certificados/components/SeleccionPredio.jsx", "src/certificados/components/GenerarPDF.jsx", "src/utils/certificaciones/generarPDFEstratificacion.js", "src/mantenimiento/components/TablaDesbloqueos.jsx", "src/app/(certificaciones)/mis-certificaciones/page.jsx", "src/certificados/components/TablaPredio.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(certificaciones)/estratificacion/page.tsx", "src/certificados/components/SeleccionPredio.jsx", "src/certificados/components/GenerarPDF.jsx", "src/utils/certificaciones/generarPDFEstratificacion.js", "src/mantenimiento/components/TablaDesbloqueos.jsx", "src/app/(certificaciones)/mis-certificaciones/page.jsx", "src/certificados/components/TablaPredio.tsx", "src/certificados/components/InformacionPredio.jsx"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,5 @@
 import { auth } from "@/auth.config";
-import { Botones, ModalPredio, TablaCertificaciones } from "@/certificados";
-import { TablaPredio } from "@/certificados/components/TablaPredio";
+import { Botones, ModalPredio, TablaCertificaciones, TablaPredios } from "@/certificados";
 import { Titulo } from "@/certificados/components/Titulo";
 import { redirect } from "next/navigation";
 
@@ -16,7 +15,7 @@ export default async function MisCertificacionesPage() {
     <>
       <Titulo titulo="Predios" descripcion="Podrá agregar o importar un listado de predios"/>
       <ModalPredio />
-      <TablaPredio />
+      <TablaPredios />
     </>
   );
 }

@@ -14,8 +14,6 @@ export const TablaPredios = () => {
     const [predios, setPredios] = useState([])
     const [respuesta, setRespuesta] = useState()
 
-    console.log(predios)
-
     useEffect(() => {
         obtenerPredios()
             .then(res => setPredios(res.listado))

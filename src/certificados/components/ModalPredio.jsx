@@ -53,7 +53,7 @@ export const ModalPredio = () => {
 
                                     <div className="mb-5 px-2 flex flex-col w-full sm:w-1/2 lg:w-1/3">
                                         <label htmlFor="codigo_municipio" className="mb-2 text-sm font-medium text-gray-900 ">Código municipio</label>
-                                        <input type="text" id="codigo_municipio" value={codigo_municipio} name='codigo_municipio' onChange={onInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 " placeholder="" required />
+                                        <input type="text" id="codigo_municipio" maxLength={5} minLength={5} value={codigo_municipio} name='codigo_municipio' onChange={onInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 " placeholder="" required />
                                     </div>
                                     <div className="mb-5 px-2 flex flex-col w-full sm:w-1/2 lg:w-1/3">
                                         <label htmlFor="cedula_catastral" className="mb-2 text-sm font-medium text-gray-900 ">Cédula catastral</label>
@@ -97,7 +97,7 @@ export const ModalPredio = () => {
                                         type="button"
                                         onClick={() => actualizar()}
                                     >
-                                        Actualizar
+                                        Crear
                                     </button>
                                 </div>
                             </div>

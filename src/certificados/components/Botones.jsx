@@ -22,30 +22,35 @@ export const Botones = ({ setShowModal }) => {
         const fileReader = new FileReader();
         fileReader.readAsArrayBuffer(file);
 
-        fileReader.onload = async(e) => {
-            const bufferArray = e.target.result;
-            
-            const workbook = XLSX.read(bufferArray, {
-                type: "buffer"
-            });
-            const hoja = workbook.SheetNames[0]
-            const worksheet = workbook.Sheets[hoja]
-            let info = XLSX.utils.sheet_to_json(worksheet)
-            
-            info = info.map(row => {
-                const newRow = {};
-                Object.keys(row).forEach(key => {
-                  newRow[key] = String(row[key]);
+        try {
+            fileReader.onload = async(e) => {
+                const bufferArray = e.target.result;
+                
+                const workbook = XLSX.read(bufferArray, {
+                    type: "buffer"
                 });
-                return newRow;
-              });
-
-
-            await crearPredios(info)
-                .then(res => setRespuesta(res))
-
-            console.log(respuesta)
-        };
+                const hoja = workbook.SheetNames[0]
+                const worksheet = workbook.Sheets[hoja]
+                let info = XLSX.utils.sheet_to_json(worksheet)
+                
+                info = info.map(row => {
+                    const newRow = {};
+                    Object.keys(row).forEach(key => {
+                      newRow[key] = String(row[key]);
+                    });
+                    return newRow;
+                  });
+    
+    
+                await crearPredios(info)
+                    .then(res => setRespuesta(res))
+    
+                
+            };
+        } catch (error) {
+            setRespuesta("Error al cargar los predios")
+        }
+        
         
         
     };
@@ -70,6 +75,7 @@ export const Botones = ({ setShowModal }) => {
                     <div>Importar listado</div>
                 </div>
             </button>
+            <div className="w-full text-xl font-bold"><span>{respuesta.message}</span></div>
         </div>
     )
 }

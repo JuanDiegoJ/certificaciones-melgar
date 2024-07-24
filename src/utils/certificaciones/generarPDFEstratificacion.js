@@ -10,7 +10,7 @@ const obtenerTextos = async (tipo_consulta) => {
 const obtenerFuncionario = async () => {
     const respuesta = await getFuncionario()
         .then(res => res)
-    return respuesta.respuesta[0]
+    return respuesta.respuesta
     }
 // Función para convertir una imagen en Base64 y devolver los datos
 async function convertirImagenABase64(path) {

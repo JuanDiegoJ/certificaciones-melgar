@@ -19,6 +19,8 @@ export const SeleccionPredio = ({ selected, setSelected }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = useState(false)
 
+    console.log(predios)
+
     useEffect(() => {
         setIsLoading(true)
         obtenerPredios(inputValue)
@@ -70,7 +72,6 @@ export const SeleccionPredio = ({ selected, setSelected }) => {
                                                 ${p?.id_predio === selected.idPredio && "bg-sky-600 text-white"} `}
                                                 onClick={() => {
                                                     if (p?.id_predio !== selected.idPredio) {
-                                                        console.log(p)
                                                         setSelected({ idPredio: p.id_predio, lugar: p.lugar })
                                                         setOpen(false)
                                                         setinputValue("")

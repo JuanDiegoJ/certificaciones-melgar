@@ -30,39 +30,109 @@ interface Session {
 }
 
 export const getPredios = async (input: string) => {
-    const values = [`${input}%`,]
-    const consulta = "SELECT id_predio, CONCAT(cedula_catastral, '-' , matricula_inmobiliaria, ' ', direccion) as lugar "
-    + "FROM predios "
-    + "where cedula_catastral like $1 "
-    + "LIMIT 10"
-    const response = await pool.query(consulta, values)
-    return { respuesta: response.rows }
+    // const values = [`${input}%`,]
+    // const consulta = "SELECT id_predio, CONCAT(cedula_catastral, '-' , matricula_inmobiliaria, ' ', direccion) as lugar "
+    // + "FROM predios "
+    // + "where cedula_catastral like $1 "
+    // + "LIMIT 10"
+    // const response = await pool.query(consulta, values)
+    // return { respuesta: response.rows }
+    const predios = await prisma.predios.findMany({
+        take:10,
+        select: {
+          id_predio: true,
+          cedula_catastral: true,
+          matricula_inmobiliaria: true,
+          direccion:true
+        },
+      });
+      const processedUsers = predios.map(predio => ({
+        id_predio: predio.id_predio,
+        lugar: `${predio.cedula_catastral}-${predio.matricula_inmobiliaria}-${predio.direccion}`
+      }));
+      return { respuesta: processedUsers }
 }
 
 export const getPredio = async (id_predio: number) => {
-    const values = [id_predio]
-    const consulta = "SELECT id_predio, cedula_catastral , matricula_inmobiliaria, direccion, estrato, barrio "
-    + "FROM predios "
-    + "where id_predio = $1 "
-    const response = await pool.query(consulta, values)
-    return { respuesta: response.rows }
+    try { // ID del usuario que quieres buscar
+    
+        const predio = await prisma.predios.findUnique({
+          where: {
+            id_predio: id_predio,
+          },
+        });
+    
+        if (predio) {
+          return { respuesta: predio }
+        } else {
+          console.log(`No se encontró ningún usuario con el ID ${id_predio}`);
+        }
+      } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+      } finally {
+        await prisma.$disconnect();
+      }
+    // const values = [id_predio]
+    // const consulta = "SELECT id_predio, cedula_catastral , matricula_inmobiliaria, direccion, estrato, barrio "
+    // + "FROM predios "
+    // + "where id_predio = $1 "
+    // const response = await pool.query(consulta, values)
+    // return { respuesta: response.rows }
 }
 
 export const getTextos = async (tipo_consulta: string) => {
-    const values = [tipo_consulta]
-    const consulta = "SELECT tipo_texto, descripcion_texto "
-    + "FROM m_parametros_texto "
-    + " "
-    + "order by id_parametro asc"
-    const response = await pool.query(consulta)
-    return { respuesta: response.rows }
+    try { // ID del usuario que quieres buscar
+    
+        const parametros = await prisma.m_parametros_texto.findMany({
+          select:{
+            tipo_texto: true,
+            descripcion_texto: true
+          },
+          orderBy: {
+            id_parametro: "asc"
+          }
+        });
+    
+        if (parametros) {
+          return { respuesta: parametros }
+        } else {
+          console.log(`No se encontró ningún usuario con el ID ${tipo_consulta}`);
+        }
+      } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+      } finally {
+        await prisma.$disconnect();
+      }
+    // const values = [tipo_consulta]
+    // const consulta = "SELECT tipo_texto, descripcion_texto "
+    // + "FROM m_parametros_texto "
+    // + " "
+    // + "order by id_parametro asc"
+    // const response = await pool.query(consulta)
+    // return { respuesta: response.rows }
 }
 
 export const getFuncionario = async () => {
-    const consulta = "SELECT * "
-    + "FROM m_sdp "
-    const response = await pool.query(consulta)
-    return { respuesta: response.rows }
+    try { // ID del usuario que quieres buscar
+    
+        const funcionario = await prisma.m_sdp.findFirst({
+          
+        });
+    
+        if (funcionario) {
+          return { respuesta: funcionario }
+        } else {
+          console.log(`No se encontró ningún usuario con el ID ${1}`);
+        }
+      } catch (error) {
+        console.error('Error al buscar el usuario:', error);
+      } finally {
+        await prisma.$disconnect();
+      }
+    // const consulta = "SELECT * "
+    // + "FROM m_sdp "
+    // const response = await pool.query(consulta)
+    // return { respuesta: response.rows }
 }
 
 export const crearConsultaPredio = async (predio: Predio, session: Session) =>{
