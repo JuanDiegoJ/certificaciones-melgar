@@ -14,7 +14,6 @@ export default async function MisCertificacionesPage() {
   return (
     <>
       <Titulo titulo="Predios" descripcion="Podrá agregar o importar un listado de predios"/>
-      <ModalPredio />
       <TablaPredios />
     </>
   );

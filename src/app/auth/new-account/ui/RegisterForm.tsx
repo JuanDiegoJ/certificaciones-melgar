@@ -12,6 +12,7 @@ type FormInputs = {
     apellidos: string
     email: string
     password: string
+    repeat_password: string
 }
 
 export const RegisterForm = () => {
@@ -20,8 +21,15 @@ export const RegisterForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
 
     const onsubmit: SubmitHandler<FormInputs> = async (data) => {
+
         setErrorMessage('')
-        const { id, nombres, apellidos, email, password } = data
+        const { id, nombres, apellidos, email, password, repeat_password } = data
+
+        if (repeat_password !== password) {
+            setErrorMessage("Las contraseñas no son iguales")
+            return
+        }
+
         const resp = await registerUser(id, nombres, apellidos, email, password)
 
         if (!resp.ok) {
@@ -29,7 +37,7 @@ export const RegisterForm = () => {
             return
         }
 
-        await login( email.toLowerCase(), password )
+        await login(email.toLowerCase(), password)
         window.location.replace('/')
     }
 
@@ -93,6 +101,19 @@ export const RegisterForm = () => {
 
 
             <label htmlFor="email">Contraseña</label>
+            <input
+                className={
+                    clsx("px-5 py-2 border bg-gray-200 rounded mb-5",
+                        {
+                            'border-red-500': !!errors.password
+                        }
+                    )
+                }
+                type="password"
+                {...register('password', { required: true })}
+            />
+
+            <label htmlFor="email">Repetir contraseña</label>
             <input
                 className={
                     clsx("px-5 py-2 border bg-gray-200 rounded mb-5",

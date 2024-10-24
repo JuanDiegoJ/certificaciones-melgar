@@ -1,21 +1,23 @@
 "use client"
 
-import { consultarCertificados } from '@/actions/mantenimiento/certificaciones'
+import { consultarCertificadosXDocumento } from '@/actions/mantenimiento/certificaciones'
 import { generarPDF } from '@/utils/certificaciones/generarPDFEstratificacion'
 import React, { useEffect, useState } from 'react'
 
 const obtenerCertificados = async (id_usuario) => {
-    const respuesta = await consultarCertificados(id_usuario)
+    console.log(id_usuario)
+    const respuesta = await consultarCertificadosXDocumento(id_usuario)
         .then(res => res)
     return respuesta
 }
 
 export const TablaCertificaciones = ({session}) => {
 
+    console.log(session)
     const [consulta, setConsulta] = useState()
 
     useEffect(() => {
-        obtenerCertificados(session.user.id_usuario)
+        obtenerCertificados(session.user.id)
             .then(res => setConsulta(res.listado))
     }, [])
 

@@ -4,7 +4,7 @@ import { useForm } from "../../hooks/useForm";
 import { crearPredio } from "@/actions/mantenimiento/certificaciones";
 import { Botones } from './Botones';
 
-export const ModalPredio = () => {
+export const ModalPredio = ({setResp}) => {
 
     const [showModal, setShowModal] = useState(false)
     const [respuesta, setRespuesta] = useState()
@@ -32,7 +32,7 @@ export const ModalPredio = () => {
 
     return (
         <>
-            <Botones setShowModal={setShowModal}/>
+            <Botones setShowModal={setShowModal} setResp={setResp} />
             {showModal ? (
                 <>
                     <div

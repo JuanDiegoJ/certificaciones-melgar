@@ -30,13 +30,7 @@ interface Session {
 }
 
 export const getPredios = async (input: string) => {
-    // const values = [`${input}%`,]
-    // const consulta = "SELECT id_predio, CONCAT(cedula_catastral, '-' , matricula_inmobiliaria, ' ', direccion) as lugar "
-    // + "FROM predios "
-    // + "where cedula_catastral like $1 "
-    // + "LIMIT 10"
-    // const response = await pool.query(consulta, values)
-    // return { respuesta: response.rows }
+  console.log(input)
     const predios = await prisma.predios.findMany({
         take:10,
         select: {
@@ -45,6 +39,11 @@ export const getPredios = async (input: string) => {
           matricula_inmobiliaria: true,
           direccion:true
         },
+        where: {
+          cedula_catastral: {
+            startsWith: input
+          }
+        }
       });
       const processedUsers = predios.map(predio => ({
         id_predio: predio.id_predio,
@@ -103,13 +102,7 @@ export const getTextos = async (tipo_consulta: string) => {
       } finally {
         await prisma.$disconnect();
       }
-    // const values = [tipo_consulta]
-    // const consulta = "SELECT tipo_texto, descripcion_texto "
-    // + "FROM m_parametros_texto "
-    // + " "
-    // + "order by id_parametro asc"
-    // const response = await pool.query(consulta)
-    // return { respuesta: response.rows }
+
 }
 
 export const getFuncionario = async () => {
@@ -129,10 +122,25 @@ export const getFuncionario = async () => {
       } finally {
         await prisma.$disconnect();
       }
-    // const consulta = "SELECT * "
-    // + "FROM m_sdp "
-    // const response = await pool.query(consulta)
-    // return { respuesta: response.rows }
+
+}
+
+export const deleteRecordsPredios = async () => {
+  try {
+  
+      const funcionario = await prisma.predios.deleteMany();
+      
+      return {
+        ok: true,
+        message: 'Se eliminaron todos los registros de las tablas'
+    }
+
+    } catch (error) {
+      console.error('Error al buscar el usuario:', error);
+    } finally {
+      await prisma.$disconnect();
+    }
+    
 }
 
 export const crearConsultaPredio = async (predio: Predio, session: Session) =>{
@@ -161,10 +169,10 @@ export const crearConsultaPredio = async (predio: Predio, session: Session) =>{
 
         const fecha = new Date()
         const annio = fecha.getFullYear()
-        const mes = (fecha.getMonth() < 10 ? "0" + (fecha.getMonth()+1) : (fecha.getMonth()+1).toString())
+        const mes = (fecha.getMonth() < 9 ? "0" + (fecha.getMonth()+1) : (fecha.getMonth()+1).toString())
 
         const no_consecutivo = annio + "-" + mes + "-" + consecutivo.toString().padStart(4, '0')
-
+        console.log(no_consecutivo)
         const consulta_predio = await prisma.consultas_predios.create({
             data: {
                 no_certificado: no_consecutivo,

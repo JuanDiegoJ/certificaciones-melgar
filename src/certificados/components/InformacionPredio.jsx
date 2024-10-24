@@ -12,6 +12,7 @@ const initialState = {
 }
 
 const obtenerPredio = async (idPredio) => {
+    console.log(idPredio)
     const respuesta = await getPredio(idPredio)
       .then(res => res)
     return respuesta.respuesta
@@ -36,7 +37,6 @@ export const InformacionPredio = ({session}) => {
             
         }
     }, [selected])
-    
 
     return (
         <>

@@ -11,10 +11,6 @@ interface Predio {
     barrio: string
 }
 
-interface Predios {
-    predios: []
-}
-
 export const consultarCertificados = async() => {
 
     try {
@@ -33,6 +29,38 @@ export const consultarCertificados = async() => {
             message: 'Consulta exitosa'
         }
 
+    } catch (error) {
+        console.log(error)
+
+        return {
+            ok: false,
+            listado: "no hay",
+            message: "No se pudo realizar la consulta"
+        }
+    }
+
+}
+
+export const consultarCertificadosXDocumento = async(id_usuario: string) => {
+
+    try {
+        
+        const listado = await prisma.consultas_predios.findMany({
+            where: {
+                usuario_id: id_usuario
+            },
+            orderBy: [
+                {
+                    fecha_consulta: 'desc'
+                }
+            ]
+        })
+
+        return {
+            ok: true,
+            listado: listado,
+            message: 'Consulta exitosa'
+        }
 
     } catch (error) {
         console.log(error)

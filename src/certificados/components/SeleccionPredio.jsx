@@ -7,6 +7,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 
 const obtenerPredios = async (input) => {
+
+    console.log(input)
     const respuesta = await getPredios(input)
         .then(res => res)
     return respuesta.respuesta
@@ -19,14 +21,16 @@ export const SeleccionPredio = ({ selected, setSelected }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = useState(false)
 
-    console.log(predios)
 
     useEffect(() => {
         setIsLoading(true)
+        console.log(selected)
         obtenerPredios(inputValue)
             .then(resp => setPredios(resp))
         setIsLoading(false)
     }, [inputValue])
+
+    
 
     return (
         <>
